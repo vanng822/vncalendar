@@ -37,6 +37,7 @@ func TestSolar2LunarLeapMonth(t *testing.T) {
 	assert.Equal(t, 20, lunarDate.Day)
 	assert.Equal(t, 7, lunarDate.Month)
 	assert.Equal(t, 2006, lunarDate.Year)
+	assert.Equal(t, true, lunarDate.Leap)
 }
 
 func TestLunar2SolarLeapMonth(t *testing.T) {
