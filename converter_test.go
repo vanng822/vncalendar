@@ -2,6 +2,7 @@ package vncalendar
 
 import (
 	"testing"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSolar2Lunar(t *testing.T) {
@@ -29,4 +30,11 @@ func TestLunar2solar(t *testing.T) {
 	if result.Year != 2014 {
 		t.Errorf("Year expected to be 2014 but got '%s'", result.Year)
 	}
+}
+
+func TestSolr2LunarLeapMonth(t *testing.T) {
+	lunarDate := Solar2lunar(2006, 9, 12, 7)
+	assert.Equal(t, 20, lunarDate.Day)
+	assert.Equal(t, 7, lunarDate.Month)
+	assert.Equal(t, 2006, lunarDate.Year)
 }
