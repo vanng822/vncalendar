@@ -32,9 +32,16 @@ func TestLunar2solar(t *testing.T) {
 	}
 }
 
-func TestSolr2LunarLeapMonth(t *testing.T) {
+func TestSolar2LunarLeapMonth(t *testing.T) {
 	lunarDate := Solar2lunar(2006, 9, 12, 7)
 	assert.Equal(t, 20, lunarDate.Day)
 	assert.Equal(t, 7, lunarDate.Month)
+	assert.Equal(t, 2006, lunarDate.Year)
+}
+
+func TestLunar2SolarLeapMonth(t *testing.T) {
+	lunarDate := Lunar2solar(2006, 7, 20, 7, 7)
+	assert.Equal(t, 12, lunarDate.Day)
+	assert.Equal(t, 9, lunarDate.Month)
 	assert.Equal(t, 2006, lunarDate.Year)
 }
