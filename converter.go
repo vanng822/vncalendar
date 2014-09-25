@@ -25,7 +25,7 @@ func jdFromDate(dd, mm, yyyy int) int {
 	return jd
 }
 
-func jdToDate(jd int) *SolarDate {
+func jdToDate(jd int) SolarDate {
 	var a, b, c, d, e, m, day, month, year int
 	date := SolarDate{}
 
@@ -48,7 +48,7 @@ func jdToDate(jd int) *SolarDate {
 	date.Month = month
 	date.Year = year
 
-	return &date
+	return date
 }
 
 func newMoon(ak int) float64 {
@@ -81,7 +81,7 @@ func newMoon(ak int) float64 {
 
 func sunLongitude(jdn float64) float64 {
 	var T, T2, dr, M, L0, DL, L float64
-	T = (jdn - 2451545.0) / 36525 // Time in Julian centuries from 2000-01-01 12:00:00 GMT
+	T = (jdn - 2451545.0) / 36525.0 // Time in Julian centuries from 2000-01-01 12:00:00 GMT
 	T2 = T * T
 	dr = math.Pi / 180                                             // degree to radian
 	M = 357.52910 + 35999.05030*T - 0.0001559*T2 - 0.00000048*T*T2 // mean anomaly, degree
@@ -129,7 +129,7 @@ func getLeapMonthOffset(a11, timeZoneOffset int) int {
 	return i - 1
 }
 
-func Solar2lunar(yyyy, mm, dd, timeZoneOffset int) *LunarDate {
+func Solar2lunar(yyyy, mm, dd, timeZoneOffset int) LunarDate {
 	var k, dayNumber, monthStart, a11, b11, lunarDay, lunarMonth, lunarYear,
 		diff, leapMonthDiff int
 	var lunarLeap bool
@@ -174,10 +174,10 @@ func Solar2lunar(yyyy, mm, dd, timeZoneOffset int) *LunarDate {
 	res.Month = lunarMonth
 	res.Year = lunarYear
 	res.Leap = lunarLeap
-	return &res
+	return res
 }
 
-func Lunar2solar(lunarYear, lunarMonth, lunarDay, lunarLeap, timeZoneOffset int) *SolarDate {
+func Lunar2solar(lunarYear, lunarMonth, lunarDay, lunarLeap, timeZoneOffset int) SolarDate {
 	var k, a11, b11, off, leapOff, leapMonth, monthStart int
 
 	if lunarMonth < 11 {
@@ -199,7 +199,7 @@ func Lunar2solar(lunarYear, lunarMonth, lunarDay, lunarLeap, timeZoneOffset int)
 			leapMonth += 12
 		}
 		if lunarLeap != 0 && lunarMonth != lunarLeap {
-			return &SolarDate{Day: 0, Month: 0, Year: 0}
+			return SolarDate{Day: 0, Month: 0, Year: 0}
 		} else if lunarLeap != 0 || off >= leapOff {
 			off += 1
 		}
