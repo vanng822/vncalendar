@@ -16,6 +16,8 @@ func TestSolar2Lunar(t *testing.T) {
 	if result.Year != 2014 {
 		t.Errorf("Year expected to be 2014 but got '%s'", result.Year)
 	}
+	
+	assert.Equal(t, false, result.Leap)
 }
 
 
