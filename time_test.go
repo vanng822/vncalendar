@@ -14,3 +14,9 @@ func TestFromSolarTime(t *testing.T) {
 	assert.Equal(t, 8, lunarTime.Month())
 	assert.Equal(t, 2014, lunarTime.Year())
 }
+
+func TestAdd(t *testing.T) {
+	l := Today()
+	n := l.Add(time.Duration(24 * time.Hour))
+	assert.Equal(t, l.Day(), n.Day() - 1)
+}
