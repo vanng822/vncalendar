@@ -20,3 +20,12 @@ func TestAdd(t *testing.T) {
 	n := l.Add(time.Duration(24 * time.Hour))
 	assert.Equal(t, l.Day(), n.Day() - 1)
 }
+
+func TestDate(t *testing.T) {
+	date, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Sep 16, 2014 at 3:04pm")
+	lunarTime := FromSolarTime(date)
+	y, m , d := lunarTime.Date()
+	assert.Equal(t, 2014, y)
+	assert.Equal(t, 8, m)
+	assert.Equal(t, 23, d)
+}
