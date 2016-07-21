@@ -1,29 +1,31 @@
 package vncalendar
 
 import (
+	"fmt"
 	"time"
 )
 
-var TimeZoneOffset int
+var (
+	TimeZoneOffset int
+)
 
 func init() {
 	now := time.Now()
 	_, offset := now.Zone()
-	TimeZoneOffset = int(offset/3600)
+	TimeZoneOffset = int(offset / 3600)
 }
 
-
 type VNDate struct {
-	solarTime time.Time
-	lunarDate LunarDate
+	solarTime      time.Time
+	lunarDate      LunarDate
 	timeZoneOffset int
 }
 
 func newVNDate(solarTime time.Time, timeZoneOffset int) VNDate {
 	t := VNDate{solarTime: solarTime, timeZoneOffset: timeZoneOffset}
 	t.lunarDate = Solar2lunar(t.solarTime.Year(), int(t.solarTime.Month()), t.solarTime.Day(), timeZoneOffset)
-	
-	return t 
+
+	return t
 }
 
 func Today() VNDate {
@@ -31,7 +33,7 @@ func Today() VNDate {
 }
 
 func Date(year, month, day, hour, min, sec, nsec, timeZoneOffset int) VNDate {
-	return VNDate{solarTime:time.Now(), timeZoneOffset: TimeZoneOffset}
+	return VNDate{solarTime: time.Now(), timeZoneOffset: TimeZoneOffset}
 }
 
 func FromSolarTime(t time.Time) VNDate {
@@ -51,11 +53,11 @@ func (t VNDate) AddDate(years int, months int, days int) VNDate {
 }
 
 func (t VNDate) Before(u VNDate) bool {
-	return false
+	return t.solarTime.Before(u.solarTime)
 }
 
 func (t VNDate) After(u VNDate) bool {
-	return false
+	return t.solarTime.After(u.solarTime)
 }
 
 func (t VNDate) Equal(u VNDate) bool {
@@ -63,7 +65,7 @@ func (t VNDate) Equal(u VNDate) bool {
 }
 
 func (t VNDate) String() string {
-	return ""
+	return fmt.Sprintf("%d-%d-%d (%d-%d-%d)", t.Year(), t.Month(), t.Day(), t.solarTime.Year(), t.solarTime.Month(), t.solarTime.Day())
 }
 
 func (t VNDate) Format(layout string) string {
