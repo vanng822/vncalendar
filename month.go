@@ -22,11 +22,11 @@ var Months = []time.Month{
 
 // Given Year/Month in Gregorian Calendar
 // Return a list of date in that month with corresponding dates
-// Lunar calendar 
+// Lunar calendar
 func GetMonthDates(year int, month time.Month) []VNDate {
 	var dates []VNDate
 	start := time.Date(year, month, 1, 12, 0, 0, 1, time.UTC)
-	for i := 0; i <= 31; i++ {
+	for i := 0; i < 31; i++ {
 		d := FromSolarTime(start.AddDate(0, 0, i))
 		// next month
 		if d.SolarTime().Month() != month {
@@ -42,6 +42,6 @@ func GetYearMonthDates(year int) map[time.Month][]VNDate {
 	for _, m := range Months {
 		months[m] = GetMonthDates(year, m)
 	}
-	
+
 	return months
 }
