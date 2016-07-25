@@ -32,8 +32,9 @@ func Today() VNDate {
 	return newVNDate(time.Now(), TimeZoneOffset)
 }
 
-func Date(year, month, day, hour, min, sec, nsec, timeZoneOffset int) VNDate {
-	return VNDate{solarTime: time.Now(), timeZoneOffset: TimeZoneOffset}
+func Date(year int, month time.Month, day, hour, min, sec, nsec int) VNDate {
+	solarTime := time.Date(year, month, day, hour, min, sec, nsec, time.UTC)
+	return newVNDate(solarTime, TimeZoneOffset)
 }
 
 func FromSolarTime(t time.Time) VNDate {
