@@ -38,3 +38,11 @@ func TestDate(t *testing.T) {
 	assert.Equal(t, 8, m)
 	assert.Equal(t, 23, d)
 }
+
+func TestDateEqual(t *testing.T) {
+	date, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Sep 16, 2014 at 3:04pm")
+	date2, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Sep 16, 2014 at 3:04pm")
+	lunarTime := FromSolarTime(date)
+	lunarTime2 := FromSolarTime(date2)
+	assert.True(t, lunarTime.Equal(lunarTime2))
+}

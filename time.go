@@ -62,7 +62,7 @@ func (t VNDate) After(u VNDate) bool {
 }
 
 func (t VNDate) Equal(u VNDate) bool {
-	return false
+	return t.solarTime.Equal(u.solarTime)
 }
 
 func (t VNDate) String() string {
