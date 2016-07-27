@@ -77,12 +77,12 @@ func (t VNDate) Day() int {
 	return t.lunarDate.Day
 }
 
-func (t VNDate) Date() (year, month, day int) {
-	return t.lunarDate.Year, t.lunarDate.Month, t.lunarDate.Day
+func (t VNDate) Date() (year int, month time.Month, day int) {
+	return t.lunarDate.Year, time.Month(t.lunarDate.Month), t.lunarDate.Day
 }
 
-func (t VNDate) Month() int {
-	return t.lunarDate.Month
+func (t VNDate) Month() time.Month {
+	return time.Month(t.lunarDate.Month)
 }
 
 func (t VNDate) Year() int {

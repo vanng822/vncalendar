@@ -11,7 +11,7 @@ func TestFromSolarTime(t *testing.T) {
 	date, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Sep 16, 2014 at 3:04pm")
 	lunarTime := FromSolarTime(date)
 	assert.Equal(t, 23, lunarTime.Day())
-	assert.Equal(t, 8, lunarTime.Month())
+	assert.Equal(t, time.August, lunarTime.Month())
 	assert.Equal(t, 2014, lunarTime.Year())
 }
 
@@ -26,7 +26,7 @@ func TestLunarDate(t *testing.T) {
 	lunarTime := FromSolarTime(date)
 	y, m, d := lunarTime.Date()
 	assert.Equal(t, 2014, y)
-	assert.Equal(t, 8, m)
+	assert.Equal(t, time.August, m)
 	assert.Equal(t, 23, d)
 }
 
@@ -35,7 +35,7 @@ func TestDate(t *testing.T) {
 	lunarTime := Date(date.Year(), date.Month(), date.Day(), date.Hour(), date.Minute(), date.Second(), 0)
 	y, m, d := lunarTime.Date()
 	assert.Equal(t, 2014, y)
-	assert.Equal(t, 8, m)
+	assert.Equal(t, time.August, m)
 	assert.Equal(t, 23, d)
 }
 
