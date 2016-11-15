@@ -6,14 +6,8 @@ import (
 )
 
 var (
-	TimeZoneOffset int
+	TimeZoneOffset = 7
 )
-
-func init() {
-	now := time.Now()
-	_, offset := now.Zone()
-	TimeZoneOffset = int(offset / 3600)
-}
 
 type VNDate struct {
 	solarTime      time.Time
