@@ -46,3 +46,15 @@ func TestDateEqual(t *testing.T) {
 	lunarTime2 := FromSolarTime(date2)
 	assert.True(t, lunarTime.Equal(lunarTime2))
 }
+
+func TestFormatDefault(t *testing.T) {
+	date, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Sep 16, 2014 at 3:04pm")
+	lunarTime := FromSolarTime(date)
+	assert.Equal(t, lunarTime.Format(""), "2014-08-23")
+}
+
+func TestFormatVietnamese(t *testing.T) {
+	date, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Sep 16, 2014 at 3:04pm")
+	lunarTime := FromSolarTime(date)
+	assert.Equal(t, lunarTime.Format("%[3]s/%[2]s/%[1]s"), "23/08/2014")
+}

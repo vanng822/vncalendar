@@ -60,11 +60,19 @@ func (t VNDate) Equal(u VNDate) bool {
 }
 
 func (t VNDate) String() string {
-	return fmt.Sprintf("%d-%d-%d (%d-%d-%d)", t.Year(), t.Month(), t.Day(), t.solarTime.Year(), t.solarTime.Month(), t.solarTime.Day())
+	return fmt.Sprintf("%s-%s-%s (%s-%s-%s)",
+		padd(t.Year()), padd(int(t.Month())), padd(t.Day()),
+		padd(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()))
 }
 
+// Format using Sprintf where inputs are string with zero padd
+// First position is year, 2nd month, 3rth day
+// Default is %[1]s-%[2]s-%[3]s
 func (t VNDate) Format(layout string) string {
-	return ""
+	if layout == "" {
+		layout = "%[1]s-%[2]s-%[3]s"
+	}
+	return fmt.Sprintf(layout, padd(t.Year()), padd(int(t.Month())), padd(t.Day()))
 }
 
 func (t VNDate) Day() int {
