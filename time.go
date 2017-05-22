@@ -40,7 +40,7 @@ func (t VNDate) SolarTime() time.Time {
 }
 
 func (t VNDate) Add(d time.Duration) VNDate {
-	return newVNDate(t.solarTime.Add(d), TimeZoneOffset)
+	return newVNDate(t.solarTime.Add(d), t.timeZoneOffset)
 }
 
 func (t VNDate) AddDate(years int, months int, days int) VNDate {
