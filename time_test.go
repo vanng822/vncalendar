@@ -58,3 +58,15 @@ func TestFormatVietnamese(t *testing.T) {
 	lunarTime := FromSolarTime(date)
 	assert.Equal(t, lunarTime.Format("%[3]s/%[2]s/%[1]s"), "23/08/2014")
 }
+
+func TestDateVNTimeZone(t *testing.T) {
+	date := Date(2017, time.May, 21, 16, 59, 59, 0)
+	assert.Equal(t, 2017, date.Year())
+	assert.Equal(t, time.April, date.Month())
+	assert.Equal(t, 26, date.Day())
+
+	date2 := Date(2017, time.May, 21, 17, 0, 1, 0)
+	assert.Equal(t, 2017, date2.Year())
+	assert.Equal(t, time.April, date2.Month())
+	assert.Equal(t, 27, date2.Day())
+}
