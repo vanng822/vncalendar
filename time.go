@@ -23,7 +23,7 @@ func newVNDate(solarTime time.Time, timeZoneOffset int) VNDate {
 }
 
 func Today() VNDate {
-	return newVNDate(time.Now(), TimeZoneOffset)
+	return newVNDate(time.Now().UTC(), TimeZoneOffset)
 }
 
 func Date(year int, month time.Month, day, hour, min, sec, nsec int) VNDate {
