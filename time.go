@@ -6,7 +6,8 @@ import (
 )
 
 var (
-	TimeZoneOffset = 7
+	TimeZoneOffset  = 7
+	VietNamTimeZone = time.FixedZone("ICT", 7*60*60)
 )
 
 type VNDate struct {
@@ -23,16 +24,16 @@ func newVNDate(solarTime time.Time, timeZoneOffset int) VNDate {
 }
 
 func Today() VNDate {
-	return newVNDate(time.Now().UTC(), TimeZoneOffset)
+	return newVNDate(time.Now().In(VietNamTimeZone), TimeZoneOffset)
 }
 
 func Date(year int, month time.Month, day, hour, min, sec, nsec int) VNDate {
-	solarTime := time.Date(year, month, day, hour, min, sec, nsec, time.UTC)
+	solarTime := time.Date(year, month, day, hour, min, sec, nsec, time.UTC).In(VietNamTimeZone)
 	return newVNDate(solarTime, TimeZoneOffset)
 }
 
 func FromSolarTime(t time.Time) VNDate {
-	return newVNDate(t, TimeZoneOffset)
+	return newVNDate(t.In(VietNamTimeZone), TimeZoneOffset)
 }
 
 func (t VNDate) SolarTime() time.Time {
