@@ -40,6 +40,10 @@ func (t VNDate) SolarTime() time.Time {
 	return t.solarTime
 }
 
+func (t VNDate) LunarDate() LunarDate {
+	return t.lunarDate
+}
+
 func (t VNDate) Add(d time.Duration) VNDate {
 	return newVNDate(t.solarTime.Add(d), t.timeZoneOffset)
 }
