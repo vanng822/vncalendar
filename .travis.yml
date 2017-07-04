@@ -1,8 +1,10 @@
 language: go
 
 go:
-  - 1.3
-  - tip
+ - 1.6
+ - 1.7
+ - 1.8
+ - tip
 
 install: go get github.com/stretchr/testify/assert && go get -v .
 
