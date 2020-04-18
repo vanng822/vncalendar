@@ -15,7 +15,7 @@ func TestSolar2Lunar(t *testing.T) {
 }
 
 func TestLunar2solar(t *testing.T) {
-	result := Lunar2solar(2014, 8, 30, 0, 0)
+	result := Lunar2solar(2014, 8, 30, false, 0)
 	assert.Equal(t, 23, result.Day)
 	assert.Equal(t, 9, result.Month)
 	assert.Equal(t, 2014, result.Year)
@@ -48,22 +48,22 @@ func TestSolar2LunarLeapMonth(t *testing.T) {
 }
 
 func TestLunar2SolarLeapMonth(t *testing.T) {
-	solarDate := Lunar2solar(2006, 7, 20, 1, 7)
+	solarDate := Lunar2solar(2006, 7, 20, true, 7)
 	assert.Equal(t, 12, solarDate.Day)
 	assert.Equal(t, 9, solarDate.Month)
 	assert.Equal(t, 2006, solarDate.Year)
 
-	solarDate = Lunar2solar(2006, 7, 20, 0, 7)
+	solarDate = Lunar2solar(2006, 7, 20, false, 7)
 	assert.Equal(t, 13, solarDate.Day)
 	assert.Equal(t, 8, solarDate.Month)
 	assert.Equal(t, 2006, solarDate.Year)
 
-	solarDate = Lunar2solar(2012, 4, 23, 0, 7)
+	solarDate = Lunar2solar(2012, 4, 23, false, 7)
 	assert.Equal(t, 13, solarDate.Day)
 	assert.Equal(t, 5, solarDate.Month)
 	assert.Equal(t, 2012, solarDate.Year)
 
-	solarDate = Lunar2solar(2012, 4, 23, 1, 7)
+	solarDate = Lunar2solar(2012, 4, 23, true, 7)
 	assert.Equal(t, 12, solarDate.Day)
 	assert.Equal(t, 6, solarDate.Month)
 	assert.Equal(t, 2012, solarDate.Year)

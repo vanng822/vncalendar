@@ -177,7 +177,7 @@ func Solar2lunar(yyyy, mm, dd, timeZoneOffset int) LunarDate {
 	return res
 }
 
-func Lunar2solar(lunarYear, lunarMonth, lunarDay, lunarLeap, timeZoneOffset int) SolarDate {
+func Lunar2solar(lunarYear, lunarMonth, lunarDay int, lunarLeap bool, timeZoneOffset int) SolarDate {
 	var k, a11, b11, off, leapOff, leapMonth, monthStart int
 
 	if lunarMonth < 11 {
@@ -198,9 +198,9 @@ func Lunar2solar(lunarYear, lunarMonth, lunarDay, lunarLeap, timeZoneOffset int)
 		if leapMonth < 0 {
 			leapMonth += 12
 		}
-		if lunarLeap != 0 && lunarMonth != leapMonth {
+		if lunarLeap && lunarMonth != leapMonth {
 			return SolarDate{Day: 0, Month: 0, Year: 0}
-		} else if lunarLeap != 0 || off >= leapOff {
+		} else if lunarLeap || off >= leapOff {
 			off += 1
 		}
 	}
