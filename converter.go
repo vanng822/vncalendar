@@ -59,10 +59,10 @@ func newMoon(ak int) float64 {
 	T3 = T2 * T
 	dr = math.Pi / 180
 	Jd1 = 2415020.75933 + 29.53058868*k + 0.0001178*T2 - 0.000000155*T3
-	Jd1 = Jd1 + 0.00033*math.Sin((166.56+132.87*T-0.009173*T2)*dr)  // Mean new moon
-	M = 359.2242 + 29.10535608*k - 0.0000333*T2 - 0.00000347*T3     // Sun's mean anomaly
+	Jd1 = Jd1 + 0.00033*math.Sin((166.56+132.87*T-0.009173*T2)*dr) // Mean new moon
+	M = 359.2242 + 29.10535608*k - 0.0000333*T2 - 0.00000347*T3    // Sun's mean anomaly
 	mPr = 306.0253 + 385.81691806*k + 0.0107306*T2 + 0.00001236*T3 // Moon's mean anomaly
-	F = 21.2964 + 390.67050646*k - 0.0016528*T2 - 0.00000239*T3     // Moon's argument of latitude
+	F = 21.2964 + 390.67050646*k - 0.0016528*T2 - 0.00000239*T3    // Moon's argument of latitude
 	C1 = (0.1734-0.000393*T)*math.Sin(M*dr) + 0.0021*math.Sin(2*dr*M)
 	C1 = C1 - 0.4068*math.Sin(mPr*dr) + 0.0161*math.Sin(dr*2*mPr)
 	C1 = C1 - 0.0004*math.Sin(dr*3*mPr)
@@ -75,7 +75,7 @@ func newMoon(ak int) float64 {
 	} else {
 		deltat = -0.000278 + 0.000265*T + 0.000262*T2
 	}
-	
+
 	return Jd1 + C1 - deltat
 }
 
@@ -198,7 +198,7 @@ func Lunar2solar(lunarYear, lunarMonth, lunarDay, lunarLeap, timeZoneOffset int)
 		if leapMonth < 0 {
 			leapMonth += 12
 		}
-		if lunarLeap != 0 && lunarMonth != lunarLeap {
+		if lunarLeap != 0 && lunarMonth != leapMonth {
 			return SolarDate{Day: 0, Month: 0, Year: 0}
 		} else if lunarLeap != 0 || off >= leapOff {
 			off += 1
