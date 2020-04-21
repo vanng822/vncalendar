@@ -16,7 +16,7 @@ func TestFromSolarTime(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	l := Today()
+	l, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Sep 16, 2014 at 3:04pm")
 	n := l.Add(time.Duration(24 * time.Hour))
 	assert.Equal(t, l.Day(), n.Day()-1)
 }
