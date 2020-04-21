@@ -26,7 +26,12 @@ var Months = []time.Month{
 func GetMonthDates(year int, month time.Month) []VNDate {
 	var dates []VNDate
 	start := time.Date(year, month, 1, 12, 0, 0, 1, time.UTC).In(VietNamTimeZone)
-	for i := 0; i < 31; i++ {
+	for i := 0; i < 28; i++ {
+		d := FromSolarTime(start.AddDate(0, 0, i))
+		dates = append(dates, d)
+	}
+
+	for i := 28; i < 31; i++ {
 		d := FromSolarTime(start.AddDate(0, 0, i))
 		// next month
 		if d.SolarTime().Month() != month {
