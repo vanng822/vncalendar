@@ -121,7 +121,7 @@ func getLeapMonthOffset(a11, timeZoneOffset int) int {
 	i = 1 // We start with the month following lunar month 11
 	arc = getSunLongitude(getNewMoonDay(k+i, timeZoneOffset), timeZoneOffset)
 
-	for arc != last && i < 14 {
+	for ok := true; ok; ok = arc != last && i < 14 {
 		last = arc
 		i++
 		arc = getSunLongitude(getNewMoonDay(k+i, timeZoneOffset), timeZoneOffset)
