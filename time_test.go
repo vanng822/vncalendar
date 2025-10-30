@@ -102,11 +102,11 @@ func TestLastDayOfMonth(t *testing.T) {
 func TestFirstDayOfMonth(t *testing.T) {
 	d := Date(2018, time.July, 22, 12, 12, 12, 0)
 
-	last := d.FirstDayOfMonth()
-	assert.Equal(t, 2018, last.Year())
-	assert.Equal(t, time.June, last.Month())
-	assert.Equal(t, 1, last.Day())
-	assert.Equal(t, 2018, last.SolarTime().Year())
-	assert.Equal(t, time.July, last.SolarTime().Month())
-	assert.Equal(t, 13, last.SolarTime().Day())
+	first := d.FirstDayOfMonth()
+	assert.Equal(t, 2018, first.Year())
+	assert.Equal(t, time.June, first.Month())
+	assert.Equal(t, 1, first.Day())
+	assert.Equal(t, 2018, first.SolarTime().Year())
+	assert.Equal(t, time.July, first.SolarTime().Month())
+	assert.Equal(t, 13, first.SolarTime().Day())
 }
