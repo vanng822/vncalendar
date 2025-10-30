@@ -70,3 +70,43 @@ func TestDateVNTimeZone(t *testing.T) {
 	assert.Equal(t, time.April, date2.Month())
 	assert.Equal(t, 27, date2.Day())
 }
+
+func TestFirstDayOfMonth(t *testing.T) {
+	// 2025-10-30 solar = 2025-09-10 lunar => first day of month solar is 2025-10-21
+	date := Date(2025, time.October, 30, 16, 59, 59, 0)
+	d := date.FirstDayOfMonth().solarTime
+	assert.Equal(t, 2025, d.Year())
+	assert.Equal(t, time.October, d.Month())
+	assert.Equal(t, 21, d.Day())
+}
+
+func TestLastDayOfMonth(t *testing.T) {
+	// 2025-10-30 solar = 2025-09-10 lunar => last day of month solar is 2025-11-19
+	date := Date(2025, time.October, 30, 16, 59, 59, 0)
+	d := date.LastDayOfMonth().solarTime
+	assert.Equal(t, 2025, d.Year())
+	assert.Equal(t, time.November, d.Month())
+	assert.Equal(t, 19, d.Day())
+}
+
+func TestIsTheFirstNextDay(t *testing.T) {
+	date := Date(2025, time.October, 20, 16, 59, 59, 0)
+	d := date.IsTheFirstNextDay()
+	assert.True(t, d)
+
+	date = Date(2025, time.October, 19, 16, 59, 59, 0)
+	d = date.IsTheFirstNextDay()
+	assert.False(t, d)
+
+}
+
+func TestIsTheFifteenNextDay(t *testing.T) {
+	date := Date(2025, time.October, 5, 16, 59, 59, 0)
+	d := date.IsTheFifteenNextDay()
+	assert.True(t, d)
+
+	date = Date(2025, time.October, 4, 16, 59, 59, 0)
+	d = date.IsTheFifteenNextDay()
+	assert.False(t, d)
+
+}
