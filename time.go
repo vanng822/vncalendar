@@ -95,3 +95,42 @@ func (t VNDate) Month() time.Month {
 func (t VNDate) Year() int {
 	return t.lunarDate.Year
 }
+
+func (t VNDate) IsTheFirstNextDay() bool {
+	d := t.AddDate(0, 0, 1)
+	return d.Day() == 1
+}
+
+func (t VNDate) IsTheFifteenNextDay() bool {
+	d := t.AddDate(0, 0, 1)
+	return d.Day() == 15
+}
+
+func (t VNDate) LastDayOfMonth() VNDate {
+	var date VNDate
+	date = t
+	d := t
+	for range 31 {
+		d = d.AddDate(0, 0, 1)
+		// next month
+		if d.LunarDate().Day == 1 {
+			date = d.AddDate(0, 0, -1)
+			break
+		}
+	}
+	return date
+}
+
+func (t VNDate) FirstDayOfMonth() VNDate {
+	date := t
+	start := t
+	for range 31 {
+		// first day
+		if start.Day() == 1 {
+			date = start
+			break
+		}
+		start = start.AddDate(0, 0, -1)
+	}
+	return date
+}
