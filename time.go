@@ -155,6 +155,9 @@ func ParseFromSolarString(dateStr, layout string) (VNDate, error) {
 
 var dateFormatRe = regexp.MustCompile(`^(\d{4})-(\d{2})-(\d{2})$`)
 
+// ParseDate parse date string in format "YYYY-MM-DD"
+// date: string lunar date in format "YYYY-MM-DD"
+// return zero value VNDate and error if invalid format or invalid date
 func ParseDate(date string) (VNDate, error) {
 	var (
 		year, day int
