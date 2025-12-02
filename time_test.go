@@ -110,3 +110,16 @@ func TestFirstDayOfMonth(t *testing.T) {
 	assert.Equal(t, time.July, first.SolarTime().Month())
 	assert.Equal(t, 13, first.SolarTime().Day())
 }
+
+func TestParseDate(t *testing.T) {
+	testDateString := "2025-12-02 12:04:05.999999999 +0700 ICT"
+	lunarDate, err := ParseFromSolarString(testDateString, DefaultSolarLayout)
+	assert.NoError(t, err)
+	assert.Equal(t, 13, lunarDate.Day())
+	assert.Equal(t, time.October, lunarDate.Month())
+	assert.Equal(t, 2025, lunarDate.Year())
+
+	invalidDateString := "2023-13-40 12:04:05.999999999 +0700 ICT"
+	_, err = ParseFromSolarString(invalidDateString, DefaultSolarLayout)
+	assert.Error(t, err)
+}

@@ -134,3 +134,18 @@ func (t VNDate) FirstDayOfMonth() VNDate {
 	}
 	return date
 }
+
+const DefaultSolarLayout = "2006-01-02 15:04:05.999999999 -0700 MST"
+
+// Layout uses time package layout format
+// if error occurs, VNDate with zero value is returned
+func ParseFromSolarString(dateStr, layout string) (VNDate, error) {
+	if layout == "" {
+		layout = DefaultSolarLayout
+	}
+	solarTime, err := time.Parse(layout, dateStr)
+	if err != nil {
+		return VNDate{}, err
+	}
+	return FromSolarTime(solarTime), nil
+}
