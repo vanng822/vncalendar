@@ -1,7 +1,10 @@
 package vncalendar
 
 import (
+	"errors"
 	"fmt"
+	"regexp"
+	"strconv"
 	"time"
 )
 
@@ -148,4 +151,63 @@ func ParseFromSolarString(dateStr, layout string) (VNDate, error) {
 		return VNDate{}, err
 	}
 	return FromSolarTime(solarTime), nil
+}
+
+var dateFormatRe = regexp.MustCompile(`^(\d{4})-(\d{2})-(\d{2})$`)
+
+func ParseDate(date string) (VNDate, error) {
+	var (
+		year, day int
+		month     int
+		err       error
+	)
+
+	res := dateFormatRe.FindStringSubmatch(date)
+
+	if len(res) != 4 {
+		return VNDate{}, errors.New("invalid date format")
+	}
+	year, err = strconv.Atoi(res[1])
+	if err != nil {
+		return VNDate{}, errors.New("invalid date - year")
+	}
+
+	// Unsure how good the algorithm is outside this range so limit it for now
+	if 1800 > year || year > 2040 {
+		return VNDate{}, errors.New("not supported year range")
+	}
+
+	month, err = strconv.Atoi(res[2])
+	if err != nil {
+		return VNDate{}, err
+	}
+	if 1 > month || month > 12 {
+		return VNDate{}, errors.New("invalid date - month")
+	}
+
+	day, err = strconv.Atoi(res[3])
+	if err != nil {
+		return VNDate{}, errors.New("invalid date - day")
+	}
+	if 1 > day || day > 31 {
+		return VNDate{}, errors.New("invalid date - day")
+	}
+
+	valid, validDate := Validate(year, month, day)
+	if !valid {
+		return VNDate{}, errors.New("invalid date")
+	}
+
+	return validDate, nil
+}
+
+func Validate(year, month, day int) (bool, VNDate) {
+	// just convert back and forth to verify date
+	testSolar := Lunar2solar(year, month, day, false, TimeZoneOffset)
+	testLunar := Solar2lunar(testSolar.Year, testSolar.Month, testSolar.Day, TimeZoneOffset)
+
+	if testLunar.Year != year || testLunar.Month != month || testLunar.Day != day {
+		return false, VNDate{}
+	}
+	return true, FromSolarTime(time.Date(testSolar.Year, time.Month(testSolar.Month), testSolar.Day, 12, 0, 0, 0, VietNamTimeZone))
 }
