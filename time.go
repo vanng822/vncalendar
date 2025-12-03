@@ -212,5 +212,6 @@ func Validate(year, month, day int) (bool, VNDate) {
 	if testLunar.Year != year || testLunar.Month != month || testLunar.Day != day {
 		return false, VNDate{}
 	}
-	return true, FromSolarTime(time.Date(testSolar.Year, time.Month(testSolar.Month), testSolar.Day, 12, 0, 0, 0, VietNamTimeZone))
+
+	return true, Date(testSolar.Year, time.Month(testSolar.Month), testSolar.Day, 12, 0, 0, 0)
 }
