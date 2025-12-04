@@ -135,3 +135,21 @@ func TestParseDate(t *testing.T) {
 	_, err = ParseDate(invalidDateString)
 	assert.Error(t, err)
 }
+
+func TestSub(t *testing.T) {
+	// dynamic test
+	now := time.Now()
+	vnDate1 := FromSolarTime(now)
+	vnDate2 := FromSolarTime(now.Add(48 * time.Hour))
+	diff := vnDate2.Sub(vnDate1)
+	assert.Equal(t, 48*time.Hour, diff)
+
+	// static test
+	date1, _ := time.Parse("2006-01-02 15:04:05", "2014-09-16 15:04:00")
+	date2, _ := time.Parse("2006-01-02 15:04:05", "2014-09-17 14:04:00")
+	vnDate3 := FromSolarTime(date1)
+	vnDate4 := FromSolarTime(date2)
+	diff = vnDate4.Sub(vnDate3)
+	assert.Equal(t, 23*time.Hour, diff)
+
+}

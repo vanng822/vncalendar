@@ -30,6 +30,8 @@ func Today() VNDate {
 	return newVNDate(time.Now().In(VietNamTimeZone), TimeZoneOffset)
 }
 
+// Date creates VNDate from given year, month, day, hour, min, sec, nsec in Vietnam time zone
+// Paremeters are the same as time.Date, that is "solar/Julian" date parameters
 func Date(year int, month time.Month, day, hour, min, sec, nsec int) VNDate {
 	solarTime := time.Date(year, month, day, hour, min, sec, nsec, time.UTC).In(VietNamTimeZone)
 	return newVNDate(solarTime, TimeZoneOffset)
@@ -47,10 +49,17 @@ func (t VNDate) LunarDate() LunarDate {
 	return t.lunarDate
 }
 
+// Sub returns the duration t-u
+func (t VNDate) Sub(u VNDate) time.Duration {
+	return t.solarTime.Sub(u.solarTime)
+}
+
+// Add returns the time t+d
 func (t VNDate) Add(d time.Duration) VNDate {
 	return newVNDate(t.solarTime.Add(d), t.timeZoneOffset)
 }
 
+// AddDate returns the time t+years, months, days
 func (t VNDate) AddDate(years int, months int, days int) VNDate {
 	return newVNDate(t.solarTime.AddDate(years, months, days), t.timeZoneOffset)
 }
