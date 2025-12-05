@@ -137,6 +137,12 @@ func TestParseDate(t *testing.T) {
 	assert.Error(t, err)
 	assert.Equal(t, "invalid date - month", err.Error())
 
+	invalidDateString = "2025-08-32"
+	_, err = ParseDate(invalidDateString)
+	assert.Error(t, err)
+	assert.Equal(t, "invalid date - day", err.Error())
+
+	// only 29 days for this month in lunar calendar
 	invalidDateString = "2025-08-30"
 	_, err = ParseDate(invalidDateString)
 	assert.Error(t, err)
