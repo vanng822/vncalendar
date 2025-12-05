@@ -134,6 +134,23 @@ func TestParseDate(t *testing.T) {
 	invalidDateString := "2023-13-40"
 	_, err = ParseDate(invalidDateString)
 	assert.Error(t, err)
+
+	invalidDateString = "2025-08-30"
+	_, err = ParseDate(invalidDateString)
+	assert.Error(t, err)
+
+	// auto test many dates
+	startDate := time.Now()
+	for i := range 1001 {
+		dt := startDate.AddDate(0, 0, i)
+		lunarDate := FromSolarTime(dt)
+		dateString := lunarDate.Format("%[1]s-%[2]s-%[3]s")
+		parsedDate, err := ParseDate(dateString)
+		assert.NoError(t, err)
+		assert.Equal(t, lunarDate.Year(), parsedDate.Year())
+		assert.Equal(t, lunarDate.Month(), parsedDate.Month())
+		assert.Equal(t, lunarDate.Day(), parsedDate.Day())
+	}
 }
 
 func TestSub(t *testing.T) {
