@@ -131,13 +131,21 @@ func TestParseDate(t *testing.T) {
 	assert.Equal(t, 2023, d.Year())
 	assert.Equal(t, time.October, d.Month())
 	assert.Equal(t, 15, d.Day())
-	invalidDateString := "2023-13-40"
+
+	invalidDateString := "2023-13-20"
 	_, err = ParseDate(invalidDateString)
 	assert.Error(t, err)
+	assert.Equal(t, "invalid date - month", err.Error())
 
 	invalidDateString = "2025-08-30"
 	_, err = ParseDate(invalidDateString)
 	assert.Error(t, err)
+	assert.Equal(t, "invalid date", err.Error())
+
+	invalidDateString = "1790-08-20"
+	_, err = ParseDate(invalidDateString)
+	assert.Error(t, err)
+	assert.Equal(t, "not supported year range", err.Error())
 
 	// auto test many dates
 	startDate := time.Now()
