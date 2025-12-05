@@ -162,7 +162,14 @@ func ParseFromSolarString(dateStr, layout string) (VNDate, error) {
 	return FromSolarTime(solarTime), nil
 }
 
-var dateFormatRe = regexp.MustCompile(`^(\d{4})-(\d{2})-(\d{2})$`)
+var (
+	dateFormatRe             = regexp.MustCompile(`^(\d{4})-(\d{2})-(\d{2})$`)
+	errInvalidDateFormat     = errors.New("invalid date format")
+	errNotSupportedYearRange = errors.New("not supported year range")
+	errInvalidMonth          = errors.New("invalid date - month")
+	errInvalidDay            = errors.New("invalid date - day")
+	errInvalidDate           = errors.New("invalid date")
+)
 
 // ParseDate parse date string in format "YYYY-MM-DD"
 // date: string lunar date in format "YYYY-MM-DD"
@@ -177,16 +184,16 @@ func ParseDate(date string) (VNDate, error) {
 	res := dateFormatRe.FindStringSubmatch(date)
 
 	if len(res) != 4 {
-		return VNDate{}, errors.New("invalid date format")
+		return VNDate{}, errInvalidDateFormat
 	}
 	year, err = strconv.Atoi(res[1])
 	if err != nil {
-		return VNDate{}, errors.New("invalid date - year")
+		return VNDate{}, err
 	}
 
 	// Unsure how good the algorithm is outside this range so limit it for now
 	if 1800 > year || year > 2040 {
-		return VNDate{}, errors.New("not supported year range")
+		return VNDate{}, errNotSupportedYearRange
 	}
 
 	month, err = strconv.Atoi(res[2])
@@ -194,20 +201,20 @@ func ParseDate(date string) (VNDate, error) {
 		return VNDate{}, err
 	}
 	if 1 > month || month > 12 {
-		return VNDate{}, errors.New("invalid date - month")
+		return VNDate{}, errInvalidMonth
 	}
 
 	day, err = strconv.Atoi(res[3])
 	if err != nil {
-		return VNDate{}, errors.New("invalid date - day")
+		return VNDate{}, errInvalidDay
 	}
 	if 1 > day || day > 31 {
-		return VNDate{}, errors.New("invalid date - day")
+		return VNDate{}, errInvalidDay
 	}
 
 	valid, validDate := Validate(year, month, day)
 	if !valid {
-		return VNDate{}, errors.New("invalid date")
+		return VNDate{}, errInvalidDate
 	}
 
 	return validDate, nil
