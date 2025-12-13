@@ -27,6 +27,10 @@ func Today() VNDate {
 	return newVNDate(time.Now().In(VietNamTimeZone), TimeZoneOffset)
 }
 
+func YesterDay() VNDate {
+	return Today().PreviousDay()
+}
+
 // Date creates VNDate from given year, month, day, hour, min, sec, nsec in Vietnam time zone
 // Paremeters are the same as time.Date, that is "solar/Julian" date parameters
 func Date(year int, month time.Month, day, hour, min, sec, nsec int) VNDate {
