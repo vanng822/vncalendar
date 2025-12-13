@@ -65,6 +65,10 @@ func (t VNDate) NextDay() VNDate {
 	return t.AddDate(0, 0, 1)
 }
 
+func (t VNDate) PreviousDay() VNDate {
+	return t.AddDate(0, 0, -1)
+}
+
 func (t VNDate) Before(u VNDate) bool {
 	return t.solarTime.Before(u.solarTime)
 }

@@ -134,3 +134,15 @@ func TestNextDay(t *testing.T) {
 	assert.Equal(t, time.October, next.Month())
 	assert.Equal(t, 27, next.Day())
 }
+
+func TestPreviousDay(t *testing.T) {
+	d := Date(2025, time.December, 15, 12, 12, 12, 0)
+	// 2025-10-26
+	assert.Equal(t, 26, d.Day())
+
+	// 2025-10-25
+	next := d.PreviousDay()
+	assert.Equal(t, 2025, next.Year())
+	assert.Equal(t, time.October, next.Month())
+	assert.Equal(t, 25, next.Day())
+}
