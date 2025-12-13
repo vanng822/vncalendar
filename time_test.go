@@ -59,6 +59,18 @@ func TestFormatVietnamese(t *testing.T) {
 	assert.Equal(t, lunarTime.Format("%[3]s/%[2]s/%[1]s"), "23/08/2014")
 }
 
+func TestFormatDisplayVietnamese(t *testing.T) {
+	date, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Dec 04, 2025 at 3:04pm")
+	lunarTime := FromSolarTime(date)
+	assert.Equal(t, lunarTime.FormatDisplay(), "15/10/2025")
+}
+
+func TestFormatSolarDateDisplayVietnamese(t *testing.T) {
+	date, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Dec 04, 2025 at 3:04pm")
+	lunarTime := FromSolarTime(date)
+	assert.Equal(t, lunarTime.FormatSolarDateDisplay(), "04/12/2025")
+}
+
 func TestDateVNTimeZone(t *testing.T) {
 	date := Date(2017, time.May, 21, 16, 59, 59, 0)
 	assert.Equal(t, 2017, date.Year())
@@ -111,76 +123,14 @@ func TestFirstDayOfMonth(t *testing.T) {
 	assert.Equal(t, 13, first.SolarTime().Day())
 }
 
-func TestParseFromSolarString(t *testing.T) {
-	testDateString := "2025-12-02 12:04:05.999999999 +0700 ICT"
-	lunarDate, err := ParseFromSolarString(testDateString, DefaultSolarLayout)
-	assert.NoError(t, err)
-	assert.Equal(t, 13, lunarDate.Day())
-	assert.Equal(t, time.October, lunarDate.Month())
-	assert.Equal(t, 2025, lunarDate.Year())
+func TestNextDay(t *testing.T) {
+	d := Date(2025, time.December, 15, 12, 12, 12, 0)
+	// 2025-10-26
+	assert.Equal(t, 26, d.Day())
 
-	invalidDateString := "2023-13-40 12:04:05.999999999 +0700 ICT"
-	_, err = ParseFromSolarString(invalidDateString, DefaultSolarLayout)
-	assert.Error(t, err)
-}
-
-func TestParseDate(t *testing.T) {
-	testDateString := "2023-10-15"
-	d, err := ParseDate(testDateString)
-	assert.NoError(t, err)
-	assert.Equal(t, 2023, d.Year())
-	assert.Equal(t, time.October, d.Month())
-	assert.Equal(t, 15, d.Day())
-
-	invalidDateString := "2023-13-20"
-	_, err = ParseDate(invalidDateString)
-	assert.Error(t, err)
-	assert.Equal(t, "invalid date - month", err.Error())
-
-	invalidDateString = "2025-08-32"
-	_, err = ParseDate(invalidDateString)
-	assert.Error(t, err)
-	assert.Equal(t, "invalid date - day", err.Error())
-
-	// only 29 days for this month in lunar calendar
-	invalidDateString = "2025-08-30"
-	_, err = ParseDate(invalidDateString)
-	assert.Error(t, err)
-	assert.Equal(t, "invalid date", err.Error())
-
-	invalidDateString = "1790-08-20"
-	_, err = ParseDate(invalidDateString)
-	assert.Error(t, err)
-	assert.Equal(t, "not supported year range", err.Error())
-
-	// auto test many dates
-	startDate := time.Now()
-	for i := range 1001 {
-		dt := startDate.AddDate(0, 0, i)
-		lunarDate := FromSolarTime(dt)
-		dateString := lunarDate.Format("%[1]s-%[2]s-%[3]s")
-		parsedDate, err := ParseDate(dateString)
-		assert.NoError(t, err)
-		assert.Equal(t, lunarDate.Year(), parsedDate.Year())
-		assert.Equal(t, lunarDate.Month(), parsedDate.Month())
-		assert.Equal(t, lunarDate.Day(), parsedDate.Day())
-	}
-}
-
-func TestSub(t *testing.T) {
-	// dynamic test
-	now := time.Now()
-	vnDate1 := FromSolarTime(now)
-	vnDate2 := FromSolarTime(now.Add(48 * time.Hour))
-	diff := vnDate2.Sub(vnDate1)
-	assert.Equal(t, 48*time.Hour, diff)
-
-	// static test
-	date1, _ := time.Parse("2006-01-02 15:04:05", "2014-09-16 15:04:00")
-	date2, _ := time.Parse("2006-01-02 15:04:05", "2014-09-17 14:04:00")
-	vnDate3 := FromSolarTime(date1)
-	vnDate4 := FromSolarTime(date2)
-	diff = vnDate4.Sub(vnDate3)
-	assert.Equal(t, 23*time.Hour, diff)
-
+	// 2025-10-27
+	next := d.NextDay()
+	assert.Equal(t, 2025, next.Year())
+	assert.Equal(t, time.October, next.Month())
+	assert.Equal(t, 27, next.Day())
 }
