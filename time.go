@@ -136,6 +136,14 @@ func (t VNDate) IsTheFifteenNextDay() bool {
 	return d.Day() == 15
 }
 
+func (t VNDate) IsTheFirst() bool {
+	return t.Day() == 1
+}
+
+func (t VNDate) IsTheFifteen() bool {
+	return t.Day() == 15
+}
+
 func (t VNDate) LastDayOfMonth() VNDate {
 	var date VNDate
 	date = t

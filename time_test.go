@@ -123,6 +123,23 @@ func TestFirstDayOfMonth(t *testing.T) {
 	assert.Equal(t, 13, first.SolarTime().Day())
 }
 
+func TestIsTheFirst(t *testing.T) {
+	d := Date(2018, time.July, 13, 12, 12, 12, 0)
+
+	assert.True(t, d.IsTheFirst())
+
+	d = Date(2018, time.July, 10, 12, 12, 12, 0)
+	assert.False(t, d.IsTheFirst())
+}
+
+func TestIsTheFifteen(t *testing.T) {
+	d := Date(2020, time.April, 7, 12, 12, 12, 0)
+	assert.True(t, d.IsTheFifteen())
+
+	d = Date(2020, time.April, 5, 12, 12, 12, 0)
+	assert.False(t, d.IsTheFifteen())
+}
+
 func TestNextDay(t *testing.T) {
 	d := Date(2025, time.December, 15, 12, 12, 12, 0)
 	// 2025-10-26
