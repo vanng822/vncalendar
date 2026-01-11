@@ -94,15 +94,15 @@ func (t VNDate) String() string {
 // Format using Sprintf where inputs are string with zero padd
 // First position is year, 2nd month, 3rth day
 // Default is %[1]s-%[2]s-%[3]s
-func (t VNDate) Format(layout string) string {
-	return t.format(layout, padd(t.Year()), padd(int(t.Month())), padd(t.Day()))
+func (t VNDate) Format(layout ...string) string {
+	return t.format(padd(t.Year()), padd(int(t.Month())), padd(t.Day()), layout...)
 }
 
-func (t VNDate) format(layout, year, month, day string) string {
-	if layout == "" {
-		layout = "%[1]s-%[2]s-%[3]s"
+func (t VNDate) format(year, month, day string, layout ...string) string {
+	if len(layout) == 0 || layout[0] == "" {
+		layout = []string{"%[1]s-%[2]s-%[3]s"}
 	}
-	return fmt.Sprintf(layout, year, month, day)
+	return fmt.Sprintf(layout[0], year, month, day)
 }
 
 func (t VNDate) FormatDisplay() string {
@@ -111,7 +111,7 @@ func (t VNDate) FormatDisplay() string {
 
 func (t VNDate) FormatSolarDateDisplay() string {
 	layout := "%[3]s/%[2]s/%[1]s"
-	return t.format(layout, padd(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()))
+	return t.format(padd(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()), layout)
 }
 
 func (t VNDate) Day() int {
