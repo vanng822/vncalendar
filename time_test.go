@@ -72,6 +72,12 @@ func TestFormatSolarDateDisplayVietnamese(t *testing.T) {
 	assert.Equal(t, lunarTime.FormatSolarDateDisplay(), "04/12/2025")
 }
 
+func TestFormatSolarDate(t *testing.T) {
+	date, _ := time.Parse("Jan 2, 2006 at 3:04pm", "Dec 04, 2025 at 3:04pm")
+	lunarTime := FromSolarTime(date)
+	assert.Equal(t, lunarTime.FormatSolarDate(), "2025-12-04")
+}
+
 func TestDateVNTimeZone(t *testing.T) {
 	date := Date(2017, time.May, 21, 16, 59, 59, 0)
 	assert.Equal(t, 2017, date.Year())

@@ -98,6 +98,13 @@ func (t VNDate) Format(layout ...string) string {
 	return t.format(padd(t.Year()), padd(int(t.Month())), padd(t.Day()), layout...)
 }
 
+// Format using Sprintf where inputs are string with zero padd
+// First position is year, 2nd month, 3rth day
+// Default is %[1]s-%[2]s-%[3]s
+func (t VNDate) FormatSolarDate(layout ...string) string {
+	return t.format(padd(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()), layout...)
+}
+
 func (t VNDate) format(year, month, day string, layout ...string) string {
 	if len(layout) == 0 || layout[0] == "" {
 		layout = []string{"%[1]s-%[2]s-%[3]s"}
