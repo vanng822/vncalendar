@@ -183,3 +183,8 @@ func (t VNDate) FirstDayOfMonth() VNDate {
 	}
 	return date
 }
+
+func (t VNDate) Jd() int {
+	dayNumber := jdFromDate(t.solarTime.Day(), int(t.solarTime.Month()), t.solarTime.Year())
+	return dayNumber
+}

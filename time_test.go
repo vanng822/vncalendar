@@ -170,3 +170,9 @@ func TestPreviousDay(t *testing.T) {
 	assert.Equal(t, time.October, next.Month())
 	assert.Equal(t, 25, next.Day())
 }
+
+func TestJd(t *testing.T) {
+	d := Date(2025, time.December, 15, 12, 12, 12, 0)
+	// 2025-10-26
+	assert.Equal(t, 2461025, d.Jd())
+}
