@@ -109,7 +109,7 @@ type CanChi struct {
 }
 
 func GetCanChi(vnDate VNDate) CanChi {
-	jd := vnDate.Jd()
+	jd := vnDate.ToJd()
 	return CanChi{
 		Year:        getYearCanChi(vnDate.Year()),
 		Month:       getMonthCanChi(int(vnDate.Month()), vnDate.Year()),

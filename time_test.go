@@ -174,5 +174,5 @@ func TestPreviousDay(t *testing.T) {
 func TestJd(t *testing.T) {
 	d := Date(2025, time.December, 15, 12, 12, 12, 0)
 	// 2025-10-26
-	assert.Equal(t, 2461025, d.Jd())
+	assert.Equal(t, 2461025, d.ToJd())
 }
