@@ -90,7 +90,10 @@ func sunLongitude(jdn float64) float64 {
 	DL = DL + (0.019993-0.000101*T)*math.Sin(dr*2*M) + 0.000290*math.Sin(dr*3*M)
 	L = L0 + DL // true longitude, degree
 	L = L * dr
-	L = L - math.Pi*2*float64(int(L/(math.Pi*2))) // Normalize to (0, 2*PI)
+	// Normalize to (0, 2*PI). Must be math.Floor, not int(): before 2000-01-01
+	// T is negative, so L is negative, and int() truncates towards zero which
+	// would leave L negative.
+	L = L - math.Pi*2*math.Floor(L/(math.Pi*2))
 	return L
 }
 
@@ -105,7 +108,7 @@ func getNewMoonDay(k, timeZoneOffset int) int {
 func getLunarMonth11(yyyy, timeZoneOffset int) int {
 	var k, off, nm, sunLong int
 	off = jdFromDate(31, 12, yyyy) - 2415021
-	k = int(float64(off) / 29.530588853)
+	k = int(math.Floor(float64(off) / 29.530588853))
 	nm = getNewMoonDay(k, timeZoneOffset)
 	sunLong = getSunLongitude(nm, timeZoneOffset) // sun longitude at local midnight
 	if sunLong >= 9 {
@@ -116,7 +119,7 @@ func getLunarMonth11(yyyy, timeZoneOffset int) int {
 
 func getLeapMonthOffset(a11, timeZoneOffset int) int {
 	var k, last, arc, i int
-	k = int((float64(a11)-2415021.076998695)/29.530588853 + 0.5)
+	k = int(math.Floor((float64(a11)-2415021.076998695)/29.530588853 + 0.5))
 	last = 0
 	i = 1 // We start with the month following lunar month 11
 	arc = getSunLongitude(getNewMoonDay(k+i, timeZoneOffset), timeZoneOffset)
@@ -136,7 +139,7 @@ func Solar2lunar(yyyy, mm, dd, timeZoneOffset int) LunarDate {
 
 	dayNumber = jdFromDate(dd, mm, yyyy)
 
-	k = int((float64(dayNumber) - 2415021.076998695) / 29.530588853)
+	k = int(math.Floor((float64(dayNumber) - 2415021.076998695) / 29.530588853))
 	monthStart = getNewMoonDay(k+1, timeZoneOffset)
 	if monthStart > dayNumber {
 		monthStart = getNewMoonDay(k, timeZoneOffset)
@@ -187,7 +190,7 @@ func Lunar2solar(lunarYear, lunarMonth, lunarDay int, lunarLeap bool, timeZoneOf
 		a11 = getLunarMonth11(lunarYear, timeZoneOffset)
 		b11 = getLunarMonth11(lunarYear+1, timeZoneOffset)
 	}
-	k = int(0.5 + (float64(a11)-2415021.076998695)/29.530588853)
+	k = int(math.Floor(0.5 + (float64(a11)-2415021.076998695)/29.530588853))
 	off = lunarMonth - 11
 	if off < 0 {
 		off += 12
