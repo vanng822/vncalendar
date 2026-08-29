@@ -87,22 +87,22 @@ func (t VNDate) Equal(u VNDate) bool {
 
 func (t VNDate) String() string {
 	return fmt.Sprintf("%s-%s-%s (%s-%s-%s)",
-		padd(t.Year()), padd(int(t.Month())), padd(t.Day()),
-		padd(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()))
+		paddYear(t.Year()), padd(int(t.Month())), padd(t.Day()),
+		paddYear(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()))
 }
 
 // Format using Sprintf where inputs are string with zero padd
 // First position is year, 2nd month, 3rth day
 // Default is %[1]s-%[2]s-%[3]s
 func (t VNDate) Format(layout ...string) string {
-	return t.format(padd(t.Year()), padd(int(t.Month())), padd(t.Day()), layout...)
+	return t.format(paddYear(t.Year()), padd(int(t.Month())), padd(t.Day()), layout...)
 }
 
 // Format using Sprintf where inputs are string with zero padd
 // First position is year, 2nd month, 3rth day
 // Default is %[1]s-%[2]s-%[3]s
 func (t VNDate) FormatSolarDate(layout ...string) string {
-	return t.format(padd(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()), layout...)
+	return t.format(paddYear(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()), layout...)
 }
 
 func (t VNDate) format(year, month, day string, layout ...string) string {
@@ -118,7 +118,7 @@ func (t VNDate) FormatDisplay() string {
 
 func (t VNDate) FormatSolarDateDisplay() string {
 	layout := "%[3]s/%[2]s/%[1]s"
-	return t.format(padd(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()), layout)
+	return t.format(paddYear(t.solarTime.Year()), padd(int(t.solarTime.Month())), padd(t.solarTime.Day()), layout)
 }
 
 func (t VNDate) Day() int {

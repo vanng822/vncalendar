@@ -8,3 +8,8 @@ func padd(digits int) string {
 	}
 	return fmt.Sprintf("0%d", digits)
 }
+
+func paddYear(year int) string {
+	// only support up to 4 digits year
+	return fmt.Sprintf("%04d", year)
+}

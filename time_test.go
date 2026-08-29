@@ -176,3 +176,9 @@ func TestJd(t *testing.T) {
 	// 2025-10-26
 	assert.Equal(t, 2461025, d.ToJd())
 }
+
+func TestPaddYear(t *testing.T) {
+	assert.Equal(t, "2025", paddYear(2025))
+	assert.Equal(t, "0025", paddYear(25))
+	assert.Equal(t, "0000", paddYear(0))
+}
